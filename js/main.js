@@ -151,12 +151,12 @@ Swal.fire({
   const contenedorProductos = document.getElementById("contenedorProductos");
 
   // Función Mostras Productos
-  const showProductos = () => {
-    // fetch(`../data.json`)
-    // .then((response) => response.json())
-    // .then(data) => {
-    //   data.forEach((producto) => {
-    productos.forEach((producto) => {
+  const showProductos = async () => {
+    try{
+      const response = await fetch(`../data.json`)
+      const data = await response.json();
+      data.forEach((producto) => {
+    // productos.forEach((producto) => {
       const card = document.createElement("div");
       card.classList.add("col-xl-3", "col-md-6");
       card.innerHTML = `
@@ -172,7 +172,7 @@ Swal.fire({
         </div>
       `;
       contenedorProductos.appendChild(card);
-
+      
       // Agregar productos al carrito
       const boton = document.getElementById(`boton${producto.id}`);
       boton.addEventListener("click", () => {
@@ -195,7 +195,10 @@ Swal.fire({
       })}
       );
     });
+    }catch(error){
+      console.log(error);
   };
+
   showProductos();
 
   // Función Agregar al Carrito
@@ -240,7 +243,12 @@ Swal.fire({
 
   const mostrarCarrito = () => {
     contenedorCarrito.innerHTML = "";
-    carrito.forEach(producto => {
+
+    // carrito.forEach(producto => {
+      fetch(`../data.json`)
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((producto) => {
       const card = document.createElement("div");
       card.classList.add("col-xl-3", "col-md-6");
       card.innerHTML = `
@@ -281,7 +289,7 @@ Swal.fire({
       });
     });
     calcularTotal();
-  };
+  });
 
   //Sumar productos en el carrito
   const sumarProducto = (id) => {
@@ -402,8 +410,8 @@ Swal.fire({
     mostrarCarrito();
     localStorage.clear();
   }
-  }})
-  } else {
+  }})}}
+} else {
   Swal.fire(
     'Acceso denegado', 'Debes ser mayor de 18 años para ingresar a este sitio', 'error'
   )}
