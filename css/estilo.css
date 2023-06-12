@@ -39,11 +39,61 @@ header {
     background-color: #333;
     padding: 20px;
     color: #fff;
+    height: 210px;
     }
     header h1 {
     font-size: 48px;
     margin: 0;
     }
+
+header div{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100px;
+}
+
+div#clima{
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    margin: 5px;
+    border: 1px solid gray;
+    padding: 10px;
+    font-size: 10px;
+}
+div#clima h2{
+    color: #fff;
+    font-size: 15px;
+}
+div#clima div{
+    display: flex;
+    flex-direction: column;
+}
+
+.pronostico{
+    height: 100px;
+    margin: 5px;
+    font-size: 10px;
+}
+    div{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+.pronostico p{
+    font-size: 10px;
+}
+
+
+.pronostico img{
+    height: 50px;
+    width: 50px;
+}
+
+
 
     body {
     font-family: Arial, sans-serif;
@@ -84,3 +134,5 @@ header {
     align-items: center;
     justify-content: center;
 }
+
+

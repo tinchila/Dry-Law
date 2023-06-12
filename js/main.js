@@ -131,17 +131,17 @@ Swal.fire({
   }
 
   // Crear Productos
-  const whiskyJDO = new Producto(1, "Whisky", "Jack Daniels", "N° 7", 40000, "img/WhiskyJackDaniels.png");
-  const whiskyJWR = new Producto(2, "Whisky", "Jhonnie Walker", "Red", 7000, "img/WhiskyJhonnieWalkerRed.png");
-  const whiskyJWB = new Producto(3, "Whisky", "Jhonnie Walker", "Black", 15000, "img/WhiskyJhonnieWalkerBlack.png");
-  const ginTO = new Producto(4, "Gin", "Tanqueray", "Original", 15000, "img/GinTanquerayOriginal.png");
-  const ginBS = new Producto(5, "Gin", "Bombay", "Shapire", 13000, "img/GinBombayShapire.png");
-  const ganciaAO = new Producto(6, "Gancia", "Americano", "Original", 15000, "img/GanciaAmericanoOriginal.png");
-  const fernetBO = new Producto(7, "Fernet" , "Branca" , "Original", 15000, "img/FernetBrancaOriginal.png");
-  const vodkaAO = new Producto(8, "Vodka" , "Absolut" , "Original", 15000, "img/VodkaAbsolutOriginal.png");
+  // const whiskyJDO = new Producto(1, "Whisky", "Jack Daniels", "N° 7", 40000, "img/WhiskyJackDaniels.png");
+  // const whiskyJWR = new Producto(2, "Whisky", "Jhonnie Walker", "Red", 7000, "img/WhiskyJhonnieWalkerRed.png");
+  // const whiskyJWB = new Producto(3, "Whisky", "Jhonnie Walker", "Black", 15000, "img/WhiskyJhonnieWalkerBlack.png");
+  // const ginTO = new Producto(4, "Gin", "Tanqueray", "Original", 15000, "img/GinTanquerayOriginal.png");
+  // const ginBS = new Producto(5, "Gin", "Bombay", "Shapire", 13000, "img/GinBombayShapire.png");
+  // const ganciaAO = new Producto(6, "Gancia", "Americano", "Original", 15000, "img/GanciaAmericanoOriginal.png");
+  // const fernetBO = new Producto(7, "Fernet" , "Branca" , "Original", 15000, "img/FernetBrancaOriginal.png");
+  // const vodkaAO = new Producto(8, "Vodka" , "Absolut" , "Original", 15000, "img/VodkaAbsolutOriginal.png");
 
   // Array's
-  const productos = [whiskyJDO, whiskyJWR, whiskyJWB, ginTO, ginBS, ganciaAO, fernetBO, vodkaAO];
+  // const productos = [whiskyJDO, whiskyJWR, whiskyJWB, ginTO, ginBS, ganciaAO, fernetBO, vodkaAO];
   let carrito = [];
 
   //Cargar carrito desde storage
@@ -417,4 +417,29 @@ Swal.fire({
   )}
 });
 
+//CLIMA
+fetch(`http://dataservice.accuweather.com/currentconditions/v1/11222?apikey=CbMcAbFO52Ebvc7evkJLr0JPp4KL3OYx&language=es-ar`) 
+    .then(response => response.json())
+    .then(data => {
+        const clima = document.getElementById('clima');
+        const pronosticoElement = clima.querySelector('.pronostico');
 
+    // Verificar si los datos existen y son un array
+    if (Array.isArray(data) && data.length > 0) {
+    const forecast = data[0];
+
+    const forecastElement = document.createElement('div');
+    forecastElement.innerHTML = `
+        <img src="http://www.accuweather.com/images/weathericons/${forecast.WeatherIcon}.svg" alt="${forecast.WeatherText}">
+        <div>
+            <h3>${forecast.WeatherText}</h3>
+            <p>Temperatura: ${forecast.Temperature.Metric.Value} ${forecast.Temperature.Metric.Unit}</p>
+        </div>`;
+
+    pronosticoElement.appendChild(forecastElement);
+    }
+    else{
+        console.log('No hay información válida.');
+    }
+})
+.catch(error => console.error(error));

@@ -1,4 +1,4 @@
-[ 
+[
 {"id": 1, "bebida": "Whisky", "marca": "Jack Daniels", "variedad": "N° 7", "precio": 40000, "img": "img/WhiskyJackDaniels.png", "cantidad": 1},
 {"id": 2, "bebida": "Whisky", "marca": "Jhonnie Walker", "variedad": "Red", "precio": 15000, "img": "img/WhiskyJhonnieWalkerRed.png", "cantidad": 1},
 {"id": 3, "bebida": "Whisky", "marca": "Jhonnie Walker", "variedad": "Black", "precio": 15000, "img": "img/WhiskyJhonnieWalkerBlack.png", "cantidad": 1},
