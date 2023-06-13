@@ -39,11 +39,68 @@ header {
     background-color: #333;
     padding: 20px;
     color: #fff;
+    height: 240px;
     }
     header h1 {
     font-size: 48px;
     margin: 0;
     }
+
+    header div{
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 100px;
+    }
+
+    
+
+    div#clima{
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        margin: 5px;
+        border: 1px solid gray;
+        padding: 10px;
+        font-size: 10px;
+        width: 200px;
+    }
+    div#clima h2{
+        color: #fff;
+        font-size: 15px;
+    }
+    div#clima div{
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+    }
+    .pronostico{
+        height: 100px;
+        margin: 5px;
+        font-size: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .pronostico div{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+    }
+
+    .pronostico p{
+        font-size: 10px;
+    }
+    
+    
+    .pronostico img{
+        height: 50px;
+        width: 50px;
+    }
+    
+
 
     body {
     font-family: Arial, sans-serif;

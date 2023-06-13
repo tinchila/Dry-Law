@@ -95,22 +95,28 @@ Swal.fire({
         if (!user) {
           Swal.fire('Usuario no encontrado', 'Debe registrarse para poder realizar una compra', 'error');
         } else {
-          let intentosRestantes = intentos;
-          if (user.clave === password) {
-            Swal.fire('Inicio de Sesión Correcto', '', 'success');
-          } else {
-            intentosRestantes--;
-            if (intentosRestantes > 0) {
-              Swal.fire(`Clave incorrecta. Te quedan ${intentosRestantes} intentos restantes.`, '', 'error');
+          let intentosRestantes = 3;
+          let loginExitoso = false;
+          while (intentosRestantes > 0 && !loginExitoso) {
+            if (user.clave === password) {
+              Swal.fire('Inicio de Sesión Correcto', '', 'success');
+              loginExitoso = true;
+              break;
             } else {
-              Swal.fire('Has agotado todos los intentos posibles', 'Vuelve a iniciar sesión', 'error');
+              intentosRestantes--;
+              if (intentosRestantes === 0) {
+                Swal.fire('Has agotado todos los intentos posibles', 'Vuelve a iniciar sesión', 'error');
+                return;
+              } else {
+                Swal.fire(`Clave incorrecta. Te quedan ${intentosRestantes} intentos restantes.`);
+                return { login, password }
             }
           }
         }
-      }
+      }}
+    })
     });
-  });
-
+  
   // Clase Producto
   class Producto {
     constructor(id, bebida, marca, variedad, precio, img) {
@@ -125,19 +131,18 @@ Swal.fire({
   }
 
   // Crear Productos
-  const whiskyJDO = new Producto(1, "Whisky", "Jack Daniels", "N° 7", 40000, "img/WhiskyJackDaniels.png");
-  const whiskyJWR = new Producto(2, "Whisky", "Jhonnie Walker", "Red", 15000, "img/WhiskyJhonnieWalkerRed.png");
+  const whiskyJDO = new Producto(1, "Whisky", "Jack Daniels", "N° 7", 13500, "img/WhiskyJackDaniels.png");
+  const whiskyJWR = new Producto(2, "Whisky", "Jhonnie Walker", "Red", 7000, "img/WhiskyJhonnieWalkerRed.png");
   const whiskyJWB = new Producto(3, "Whisky", "Jhonnie Walker", "Black", 15000, "img/WhiskyJhonnieWalkerBlack.png");
-  const ginTO = new Producto(4, "Gin", "Tanqueray", "Original", 15000, "img/GinTanquerayOriginal.png");
-  const ginBS = new Producto(5, "Gin", "Bombay", "Shapire", 13000, "img/GinBombayShapire.png");
-  const ganciaAO = new Producto(6, "Gancia", "Americano", "Original", 15000, "img/GanciaAmericanoOriginal.png");
-  const fernetBO = new Producto(7, "Fernet" , "Branca" , "Original", 15000, "img/FernetBrancaOriginal.png");
-  const vodkaAO = new Producto(8, "Vodka" , "Absolut" , "Original", 15000, "img/VodkaAbsolutOriginal.png");
+  const ginTO = new Producto(4, "Gin", "Tanqueray", "Original", 8000, "img/GinTanquerayOriginal.png");
+  const ginBS = new Producto(5, "Gin", "Bombay", "Shapire", 9000, "img/GinBombayShapire.png");
+  const ganciaAO = new Producto(6, "Gancia", "Americano", "Original", 1000, "img/GanciaAmericanoOriginal.png");
+  const fernetBO = new Producto(7, "Fernet" , "Branca" , "Original", 2200, "img/FernetBrancaOriginal.png");
+  const vodkaAO = new Producto(8, "Vodka" , "Absolut" , "Original", 6000, "img/VodkaAbsolutOriginal.png");
 
   // Array's
   const productos = [whiskyJDO, whiskyJWR, whiskyJWB, ginTO, ginBS, ganciaAO, fernetBO, vodkaAO];
   let carrito = [];
-
 
   //Cargar carrito desde storage
   carrito = (localStorage.getItem('carrito')) ? JSON.parse(localStorage.getItem('carrito')) : [];
@@ -146,7 +151,11 @@ Swal.fire({
   const contenedorProductos = document.getElementById("contenedorProductos");
 
   // Función Mostras Productos
-  const showProductos = () => {
+  const showProductos = async () => {
+    // try{
+      // const response = await fetch(`../data.json`)
+      // const data = await response.json();
+      // data.forEach((producto) => {
     productos.forEach((producto) => {
       const card = document.createElement("div");
       card.classList.add("col-xl-3", "col-md-6");
@@ -163,7 +172,7 @@ Swal.fire({
         </div>
       `;
       contenedorProductos.appendChild(card);
-
+      
       // Agregar productos al carrito
       const boton = document.getElementById(`boton${producto.id}`);
       boton.addEventListener("click", () => {
@@ -186,7 +195,10 @@ Swal.fire({
       })}
       );
     });
+    // }catch(error){
+    //   console.log(error);
   };
+
   showProductos();
 
   // Función Agregar al Carrito
@@ -231,7 +243,12 @@ Swal.fire({
 
   const mostrarCarrito = () => {
     contenedorCarrito.innerHTML = "";
+
     carrito.forEach(producto => {
+    //   fetch(`../data.json`)
+    // .then((response) => response.json())
+    // .then((data) => {
+      // data.forEach((producto) => {
       const card = document.createElement("div");
       card.classList.add("col-xl-3", "col-md-6");
       card.innerHTML = `
@@ -393,10 +410,39 @@ Swal.fire({
     mostrarCarrito();
     localStorage.clear();
   }
-  }})
-  } else {
-  Swal.fire(
+  }}
+  );
+    } else {
+    Swal.fire(
     'Acceso denegado', 'Debes ser mayor de 18 años para ingresar a este sitio', 'error'
-  )}
-});
+    )};
+    }
 
+);
+
+// CLIMA
+fetch(`http://dataservice.accuweather.com/currentconditions/v1/11222?apikey=CbMcAbFO52Ebvc7evkJLr0JPp4KL3OYx&language=es-ar`) 
+    .then(response => response.json())
+    .then(data => {
+        const clima = document.getElementById('clima');
+        const pronosticoElement = clima.querySelector('.pronostico');
+
+    // Verificar si los datos existen y son un array
+    if (Array.isArray(data) && data.length > 0) {
+    const forecast = data[0];
+
+    const forecastElement = document.createElement('div');
+    forecastElement.innerHTML = `
+        <img src="http://www.accuweather.com/images/weathericons/${forecast.WeatherIcon}.svg" alt="${forecast.WeatherText}">
+        <div>
+            <h3>${forecast.WeatherText}</h3>
+            <p>Temperatura: ${forecast.Temperature.Metric.Value} ${forecast.Temperature.Metric.Unit}</p>
+        </div>`;
+
+    pronosticoElement.appendChild(forecastElement);
+    }
+    else{
+        console.log('No hay información válida.');
+    }
+})
+.catch(error => console.error(error));
