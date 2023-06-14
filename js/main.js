@@ -354,9 +354,10 @@ Swal.fire({
       confirmButtonColor:'#000000',
   })
     } else {
+      const total = document.getElementById("total").textContent;
       Swal.fire({
-        title: '¿Cómo desea realizar el pago de su compra?',
-        text: 'Aceptamos tarjeta, transferencia o depósito bancario',
+        title: `Total de la compra con descuento: ${total}`,
+        text: ' Aceptamos tarjeta, transferencia o depósito bancario',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
         confirmButtonColor:'#000000',
@@ -420,29 +421,33 @@ Swal.fire({
 
 );
 
-// CLIMA
-fetch(`http://dataservice.accuweather.com/currentconditions/v1/11222?apikey=CbMcAbFO52Ebvc7evkJLr0JPp4KL3OYx&language=es-ar`) 
-    .then(response => response.json())
-    .then(data => {
-        const clima = document.getElementById('clima');
-        const pronosticoElement = clima.querySelector('.pronostico');
+// Clima
+const showClima = async () => {
+  try{
+    const response = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/11222?apikey=CbMcAbFO52Ebvc7evkJLr0JPp4KL3OYx&language=es-ar`);
+    const data = await response.json();
 
-    // Verificar si los datos existen y son un array
+    const clima = document.getElementById('clima');
+    const pronosticoElement = clima.querySelector('.pronostico');
+    
     if (Array.isArray(data) && data.length > 0) {
-    const forecast = data[0];
-
-    const forecastElement = document.createElement('div');
-    forecastElement.innerHTML = `
+      const forecast = data[0];
+      const forecastElement = document.createElement('div');
+      forecastElement.innerHTML = `
         <img src="http://www.accuweather.com/images/weathericons/${forecast.WeatherIcon}.svg" alt="${forecast.WeatherText}">
         <div>
-            <h3>${forecast.WeatherText}</h3>
-            <p>Temperatura: ${forecast.Temperature.Metric.Value} ${forecast.Temperature.Metric.Unit}</p>
+          <h3>${forecast.WeatherText}</h3>
+          <p>Temperatura: ${forecast.Temperature.Metric.Value} ${forecast.Temperature.Metric.Unit}</p>
         </div>`;
+      
+      pronosticoElement.appendChild(forecastElement);
+    } else {
+      console.log('No hay información válida.');
+    }
+  } catch (error) {
+    console.log('Ocurrió un error al obtener el clima:', error);
+  }
+}
 
-    pronosticoElement.appendChild(forecastElement);
-    }
-    else{
-        console.log('No hay información válida.');
-    }
-})
-.catch(error => console.error(error));
+showClima();
+
