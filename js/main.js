@@ -434,7 +434,7 @@ const showClima = async () => {
       const forecast = data[0];
       const forecastElement = document.createElement('div');
       forecastElement.innerHTML = `
-        <img src="http://www.accuweather.com/images/weathericons/${forecast.WeatherIcon}.svg" alt="${forecast.WeatherText}">
+        <img src="https://developer.accuweather.com/weather-icons/${forecast.WeatherIcon}.svg" alt="${forecast.WeatherText}">
         <div>
           <h3>${forecast.WeatherText}</h3>
           <p>Temperatura: ${forecast.Temperature.Metric.Value} ${forecast.Temperature.Metric.Unit}</p>
