@@ -54,8 +54,6 @@ header {
         height: 100px;
     }
 
-    
-
     div#clima{
         display: flex;
         flex-direction: column;
@@ -140,4 +138,17 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 800px){
+div#clima{
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    margin: 5px;
+    border: 1px solid gray;
+    padding: 10px;
+    font-size: 10px;
+    width: 100px;
+}
 }
